@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Objects;
-/*
+
 
 @Aspect
 @Component
@@ -32,4 +32,4 @@ public class LoggingAspect {
             logger.info("{{LOG}} After method execute: " + Arrays.toString(joinPoint.getArgs()));
         logger.info("{{LOG}} Result : " + result);
     }
-} */
+}

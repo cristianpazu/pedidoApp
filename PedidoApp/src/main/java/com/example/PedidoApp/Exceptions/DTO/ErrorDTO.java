@@ -1,5 +1,6 @@
 package com.example.PedidoApp.Exceptions.DTO;
 
+import com.example.PedidoApp.Exceptions.MensajeErrorEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,12 +10,13 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ErrorDTO {
-    private HttpStatus status;
-    private String message;
+    String recomendacion;
+    String codigo;
+    String error;
 
 
 
-   /* public static ErrorDTO construirError(MensajesErrorEnum mensajeError) {
+    public static ErrorDTO construirError(MensajeErrorEnum mensajeError) {
 
 
         ErrorDTO errorDTO = new ErrorDTO();
@@ -23,7 +25,7 @@ public class ErrorDTO {
         errorDTO.setRecomendacion(mensajeError.getRecomendacion());
 
         return errorDTO;
-    } */
+    }
 
 
 

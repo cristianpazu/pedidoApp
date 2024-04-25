@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/productos")
@@ -34,6 +36,11 @@ public class ProductoController {
 
         return productoService.traerProductoId(id);
 
+    }
+
+    @GetMapping("/traerTodo")
+    public List<Productos> traerProduucto(){
+        return productoService.traerTodoProducto();
     }
 
 

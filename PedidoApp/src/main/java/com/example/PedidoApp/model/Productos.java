@@ -48,4 +48,15 @@ public class Productos {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stock_id")
     private Stock stocks;
+
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "producto_bodega",
+            joinColumns = @JoinColumn(
+                    name = "producto_id"
+            ), inverseJoinColumns = @JoinColumn(name = "bodega_id")
+
+
+    )
+    Set<Bodega> Bodega = new HashSet<>();
 }
