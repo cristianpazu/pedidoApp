@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -38,15 +40,18 @@ public class ProductoServiceImpl implements ProductoServiceInterface {
                     )).collect(Collectors.toSet());
 
 
-            if (productos.getIva() >0){
+            if (productos.getIva() > 0) {
 
                 double total = productos.getIva() / 100;
-                double totalIvaProducto = productos.getPrecio() *  total;
+                double totalIvaProducto = productos.getPrecio() * total;
                 double totalProducto = totalIvaProducto + productos.getPrecio();
 
                 productos.setPrecio(totalProducto);
             }
-
+            Date fecha = new Date();
+            SimpleDateFormat df = new SimpleDateFormat("EEEE dd,MMMM, yyyy hh:mm aa");
+            String fechaStr = df.format(fecha);
+            productos.setFechaIngreso(fechaStr);
             productos.setCategorias(categoriasList);
             System.out.println("productos.getCantidad() = " + productos.getCantidad());
             productoRepository.save(productos);

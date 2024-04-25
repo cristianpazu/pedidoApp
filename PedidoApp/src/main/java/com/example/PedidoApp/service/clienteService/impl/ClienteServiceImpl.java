@@ -1,7 +1,9 @@
 package com.example.PedidoApp.service.clienteService.impl;
 
+//import com.example.PedidoApp.mappers.ClienteMapper;
 import com.example.PedidoApp.model.Cliente;
 import com.example.PedidoApp.model.DTO.ClienteDTO;
+import com.example.PedidoApp.model.DTO.ClienteRespuestaDTO;
 import com.example.PedidoApp.model.Productos;
 import com.example.PedidoApp.repository.ClienteRepository.ClienteRepository;
 import com.example.PedidoApp.service.clienteService.ClienteServiceInterface;
@@ -16,8 +18,15 @@ public class ClienteServiceImpl implements ClienteServiceInterface {
     @Autowired
     ClienteRepository clienteRepository;
 
+
+    //private ClienteMapper clienteMapper;
+
+
     @Override
     public Cliente registrarCliente(Cliente cliente) {
+
+        //Cliente cliente = clienteMapper.clienteTOclienteDto(clienteDTO);
+
         if (clienteRepository.findClienteByDocumento(cliente.getDocumento()).isPresent()) {
             throw new RuntimeException("El documento ya esta registrado");
         }
