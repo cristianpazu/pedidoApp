@@ -31,7 +31,9 @@ public class Productos {
 
     double iva;
 
+    private String fechaIngreso;
 
+    private String fechaVencimiento;
 
 
 
@@ -48,7 +50,6 @@ public class Productos {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stock_id")
     private Stock stocks;
-
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "producto_bodega",
