@@ -11,8 +11,15 @@
 	<groupId>com.example</groupId>
 	<artifactId>PedidoApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<name>PedidoApp</name>
 	<description>Demo project for Spring Boot</description>
+	<modules>
+		<module>Productos</module>
+        <module>Categoria</module>
+        <module>Cliente</module>
+		<module>Pedido</module>
+	</modules>
 	<properties>
 		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
 		<org.projectlombok.version>1.18.30</org.projectlombok.version>
@@ -69,8 +76,7 @@
 			<version>${org.mapstruct.version}</version>
 		</dependency>
 	</dependencies>
-
-	<build>
+	<!--<build>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -79,7 +85,7 @@
 					<version>3.8.1</version>
 					<configuration>
 						<source>1.8</source>
-						<target>1.8</target>
+						<target>1.8</target>-->
 						<!-- See https://maven.apache.org/plugins/maven-compiler-plugin/compile-mojo.html -->
 						<!-- Classpath elements to supply as annotation processor path. If specified, the compiler   -->
 						<!-- will detect annotation processors only in those classpath elements. If omitted, the     -->
@@ -87,7 +93,7 @@
 						<!-- on the configuration of annotationProcessors.                                           -->
 						<!--                                                                                         -->
 						<!-- According to this documentation, the provided dependency processor is not considered!   -->
-						<annotationProcessorPaths>
+						<!--<annotationProcessorPaths>
 							<path>
 								<groupId>org.mapstruct</groupId>
 								<artifactId>mapstruct-processor</artifactId>
@@ -108,9 +114,9 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-	</build>
+	</build> -->
 
-	<!--	<build>
+	<build>
             <plugins>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
@@ -125,6 +131,6 @@
                     </configuration>
                 </plugin>
             </plugins>
-        </build> -->
+        </build>
 
 </project>
