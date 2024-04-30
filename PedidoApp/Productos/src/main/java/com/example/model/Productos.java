@@ -1,6 +1,5 @@
 package com.example.model;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -49,7 +48,7 @@ public class Productos {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stock_id")
-    private Stock stocks;
+    private com.example.PedidoApp.model.Stock stocks;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "producto_bodega",

@@ -1,8 +1,9 @@
-package com.example.PedidoApp.service.categoriaService.impl;
+package com.example.service.impl;
 
-import com.example.PedidoApp.model.Categoria;
+
 import com.example.PedidoApp.repository.CategoriaRepository.CategoriaRepository;
-import com.example.PedidoApp.service.categoriaService.CategoriaServiceInterface;
+import com.example.model.Categoria;
+import com.example.service.CategoriaServiceInterface;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

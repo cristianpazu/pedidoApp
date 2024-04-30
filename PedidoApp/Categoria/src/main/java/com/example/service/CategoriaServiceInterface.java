@@ -1,8 +1,7 @@
-package com.example.PedidoApp.service.categoriaService;
+package com.example.service;
 
-import com.example.PedidoApp.model.Categoria;
-import com.example.PedidoApp.model.Productos;
 
+import com.example.model.Categoria;
 import java.util.List;
 
 public interface CategoriaServiceInterface {

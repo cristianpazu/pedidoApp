@@ -1,6 +1,8 @@
 package com.example.service;
 
-import com.example.PedidoApp.model.Productos;
+
+
+import com.example.model.Productos;
 
 import java.util.List;
 

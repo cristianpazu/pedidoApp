@@ -1,9 +1,8 @@
-package com.example.PedidoApp.controller.CategoriaController;
+package com.example.controller;
 
-import com.example.PedidoApp.model.Categoria;
-import com.example.PedidoApp.model.Productos;
-import com.example.PedidoApp.service.categoriaService.impl.CategoriaServiceImpl;
-import com.example.PedidoApp.service.productoService.impl.ProductoServiceImpl;
+
+import com.example.model.Categoria;
+import com.example.service.impl.CategoriaServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +17,7 @@ public class CategoriaController {
 
 
     @Autowired
-    private  CategoriaServiceImpl categoriaService;
+    private CategoriaServiceImpl categoriaService;
 
     @PostMapping("/registrarCategoria")
     public Categoria registrarCategoria(@RequestBody Categoria categoria){
