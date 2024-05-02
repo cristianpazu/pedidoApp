@@ -46,10 +46,10 @@ public class Productos {
 
     )
     Set<Categoria> categorias = new HashSet<>();
-
+/*
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stock_id")
-    private Stock stocks;
+    private Stock stocks; */
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "producto_bodega",

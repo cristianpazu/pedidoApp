@@ -1,7 +1,9 @@
 package com.example.PedidoApp.service.productoService.impl;
 
+import com.example.PedidoApp.model.Bodega;
 import com.example.PedidoApp.model.Categoria;
 import com.example.PedidoApp.model.Productos;
+import com.example.PedidoApp.repository.BodegaRepository.BodegaRepository;
 import com.example.PedidoApp.repository.CategoriaRepository.CategoriaRepository;
 import com.example.PedidoApp.repository.ProductoRepository.ProductoRepository;
 import com.example.PedidoApp.service.productoService.ProductoServiceInterface;
@@ -27,6 +29,8 @@ public class ProductoServiceImpl implements ProductoServiceInterface {
     private ProductoRepository productoRepository;
     @Autowired
     private CategoriaRepository categoriaRepository;
+    @Autowired
+    private BodegaRepository bodegaRepository;
 
     @Override
     public Productos registrarProducto(Productos productos) {
@@ -38,6 +42,15 @@ public class ProductoServiceImpl implements ProductoServiceInterface {
                     .map(modulo -> categoriaRepository.findById(modulo.getIdCategoria()).orElseThrow(
                             () -> new RuntimeException("Categoria no encontrada")
                     )).collect(Collectors.toSet());
+            System.out.println(productos.getBodega());
+            Set<Bodega> bodegaList = productos.getBodega().stream()
+                    .map(bodegas -> bodegaRepository.findById(bodegas.getIdBodega()).orElseThrow(
+                            () -> new RuntimeException("Categoria no encontrada")
+                    )).collect(Collectors.toSet());
+
+         // Bodega bodegaList = bodegaRepository.findById(productos.getStocks().getBodega().getIdBodega()).orElseThrow(() -> new RuntimeException("Bodega no encontrada"));
+
+
 
 
             if (productos.getIva() > 0) {
@@ -53,6 +66,8 @@ public class ProductoServiceImpl implements ProductoServiceInterface {
             String fechaStr = df.format(fecha);
             productos.setFechaIngreso(fechaStr);
             productos.setCategorias(categoriasList);
+            productos.setBodega(bodegaList);
+
             System.out.println("productos.getCantidad() = " + productos.getCantidad());
             productoRepository.save(productos);
             return productos;

@@ -1,10 +1,8 @@
 package com.example.PedidoApp.service.Pedido.impl;
 
-import com.example.PedidoApp.model.Categoria;
-import com.example.PedidoApp.model.Cliente;
+import com.example.PedidoApp.model.*;
 import com.example.PedidoApp.model.DTO.ClienteDTO;
-import com.example.PedidoApp.model.Pedido;
-import com.example.PedidoApp.model.Productos;
+import com.example.PedidoApp.repository.BodegaRepository.BodegaRepository;
 import com.example.PedidoApp.repository.ClienteRepository.ClienteRepository;
 import com.example.PedidoApp.repository.Pedido.PedidoRepository;
 import com.example.PedidoApp.repository.ProductoRepository.ProductoRepository;
@@ -33,6 +31,9 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
     @Autowired
     PedidoRepository pedidoRepository;
 
+    @Autowired
+    BodegaRepository bodegaRepository;
+
     @Override
     public Pedido registrarPedido(Pedido pedido) {
 
@@ -41,12 +42,22 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
                         () -> new RuntimeException("Producto no encontrada")
                 )).collect(Collectors.toSet());
 
+        Productos pro = new Productos();
+        Set<Bodega> bodegaList = pro.getBodega().stream()
+                .map(bodega -> bodegaRepository.findById(bodega.getIdBodega()).orElseThrow(
+                        () -> new RuntimeException("Producto no encontrada")
+                )).collect(Collectors.toSet());
 
         List<Productos> ped = pedido.getProductos().stream().collect(Collectors.toList());
 
 
         Productos productoPedido = null;
+        Bodega bodegass = null;
 
+
+        Bodega bodega = new Bodega();
+        // Integer bds =
+        //System.out.println("bds = " + bds);
         for (Productos pr : productosList) {
             productoPedido = pr;
 
@@ -59,13 +70,23 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
                     productoPedido.setCantidad(ped2.getCantidad());
 
 
-                    if (productoPedido.getStocks().getCantidadStock() == 0) {
-                        throw new RuntimeException("No hay suficiente stock disponible para el producto");
+                    for (Bodega br : bodegaList) {
+                        System.out.println("bodegaList = " + br.getStocks().getCantidadStock());
+                        //br.set();
+
+                        if (br.getStocks().getCantidadStock() == 0) {
+                            throw new RuntimeException("No hay suficiente stock disponible para el producto");
+                        }
+
+                        int stockActualizado = br.getStocks().getCantidadStock() - ped2.getCantidad();
+                        System.out.println(">>>>>>>>>>>><<<<<<<<<<<<<<<<<" + br.getStocks().getCantidadStock());
+                        for (Bodega psa : bodegaList) {
+                            bodegass = psa;
+                            System.out.println(">>>>>>>>>>>><<<<<<<<<<<<<<<<<" + bodegass.getStocks().getCantidadStock());
+                            bodegass.getStocks().setCantidadStock(stockActualizado);
+                        }
                     }
 
-                    int stockActualizado = productoPedido.getStocks().getCantidadStock() - ped2.getCantidad();
-
-                    productoPedido.getStocks().setCantidadStock(stockActualizado);
 
                 } else {
                     System.out.println("no se puede");

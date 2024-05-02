@@ -4,10 +4,7 @@ import com.example.PedidoApp.model.Bodega;
 import com.example.PedidoApp.service.bodegaService.impl.BodegaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,7 +18,7 @@ public class BodegaController {
 
     @PostMapping("/registrarBodega")
 
-    public Bodega registrarBodega(Bodega bodega) {
+    public Bodega registrarBodega(@RequestBody Bodega bodega) {
 
         return bodegaService.registrarBodega(bodega);
 
@@ -34,7 +31,7 @@ public class BodegaController {
     }
 
     @GetMapping("/listarBodega/{id}")
-    public Bodega listarBodega(Long id) {
+    public Bodega listarBodega(@PathVariable Long id) {
         return bodegaService.traerIdBoderga(id);
     }
 
