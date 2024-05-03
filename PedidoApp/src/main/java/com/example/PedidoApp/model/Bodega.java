@@ -25,7 +25,7 @@ public class Bodega {
 
  /*   @ManyToMany(mappedBy = "Bodega")
     private Set<Productos> productosSet; */
- @Transient
+
  @OneToOne(cascade = CascadeType.ALL)
  @JoinColumn(name = "stock_id")
  private Stock stocks;

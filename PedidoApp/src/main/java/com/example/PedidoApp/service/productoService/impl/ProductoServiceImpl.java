@@ -45,12 +45,15 @@ public class ProductoServiceImpl implements ProductoServiceInterface {
             System.out.println(productos.getBodega());
             Set<Bodega> bodegaList = productos.getBodega().stream()
                     .map(bodegas -> bodegaRepository.findById(bodegas.getIdBodega()).orElseThrow(
-                            () -> new RuntimeException("Categoria no encontrada")
+                            () -> new RuntimeException("Bodega no encontrada")
                     )).collect(Collectors.toSet());
 
          // Bodega bodegaList = bodegaRepository.findById(productos.getStocks().getBodega().getIdBodega()).orElseThrow(() -> new RuntimeException("Bodega no encontrada"));
 
+            for (Bodega da : bodegaList){
+                System.out.println("bodegaList = " + da.getStocks().getCantidadStock());
 
+            }
 
 
             if (productos.getIva() > 0) {
