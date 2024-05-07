@@ -1,6 +1,9 @@
 package com.example.PedidoApp.service.categoriaService.impl;
 
+import com.example.PedidoApp.Exceptions.MensajeErrorEnum;
+import com.example.PedidoApp.Exceptions.RequestException;
 import com.example.PedidoApp.model.Categoria;
+import com.example.PedidoApp.model.Productos;
 import com.example.PedidoApp.repository.CategoriaRepository.CategoriaRepository;
 import com.example.PedidoApp.service.categoriaService.CategoriaServiceInterface;
 import lombok.AllArgsConstructor;
@@ -24,9 +27,9 @@ public class CategoriaServiceImpl implements CategoriaServiceInterface {
     public Categoria registrarCategoria(Categoria categoria) {
 
 
-      /*  if (categoriaRepository.findByIdCategoria(categoria.getIdCategoria()).isPresent()) {
-            throw new RuntimeException("Categoria ya registrado");
-        } */
+        if (categoriaRepository.findById(categoria.getIdCategoria()).isPresent()) {
+            throw new RequestException(MensajeErrorEnum.CATEGORIA_NO_EXITE, HttpStatus.BAD_REQUEST.value());
+        }
 
         try {
 
@@ -40,7 +43,14 @@ public class CategoriaServiceImpl implements CategoriaServiceInterface {
 
     @Override
     public List<Categoria> traerTodoCategoria() {
-        return null;
+        List<Categoria> categoriaList = categoriaRepository.findAll();
+
+        try{
+            return categoriaList;
+        }catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override

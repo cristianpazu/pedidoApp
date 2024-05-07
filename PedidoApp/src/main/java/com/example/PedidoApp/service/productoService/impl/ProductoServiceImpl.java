@@ -1,5 +1,7 @@
 package com.example.PedidoApp.service.productoService.impl;
 
+import com.example.PedidoApp.Exceptions.MensajeErrorEnum;
+import com.example.PedidoApp.Exceptions.RequestException;
 import com.example.PedidoApp.model.Bodega;
 import com.example.PedidoApp.model.Categoria;
 import com.example.PedidoApp.model.Productos;
@@ -44,12 +46,12 @@ public class ProductoServiceImpl implements ProductoServiceInterface {
         try {
             Set<Categoria> categoriasList = productos.getCategorias().stream()
                     .map(modulo -> categoriaRepository.findById(modulo.getIdCategoria()).orElseThrow(
-                            () -> new RuntimeException("Categoria no encontrada")
+                            () -> new RequestException(MensajeErrorEnum.CATEGORIA_NO_EXITE, HttpStatus.BAD_REQUEST.value())
                     )).collect(Collectors.toSet());
             System.out.println(productos.getBodega());
             Set<Bodega> bodegaList = productos.getBodega().stream()
                     .map(bodegas -> bodegaRepository.findById(bodegas.getIdBodega()).orElseThrow(
-                            () -> new RuntimeException("Bodega no encontrada")
+                            () -> new RequestException(MensajeErrorEnum.BODEGA_NO_ENCONTRADA, HttpStatus.BAD_REQUEST.value())
                     )).collect(Collectors.toSet());
 /*
             // Bodega bodegaList = bodegaRepository.findById(productos.getStocks().getBodega().getIdBodega()).orElseThrow(() -> new RuntimeException("Bodega no encontrada"));
