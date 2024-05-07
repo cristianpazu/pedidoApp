@@ -47,7 +47,7 @@ public class ventaReport {
             float twocol = 386f;
             Table nestedTable = new Table(new float[]{twocol / 2, twocol / 2});
 
-            Table table = new Table(6);
+            Table table = new Table(8);
 
                 nestedTable.addCell(new Cell().add("Documento"));
                 nestedTable.addCell(new Cell().add(String.valueOf(clienteList.getDocumento())));
@@ -71,21 +71,29 @@ public class ventaReport {
             table.addCell(new Cell().add("Nombre"));
             table.addCell(new Cell().add("Cantidad"));
             table.addCell(new Cell().add("Iva"));
-            table.addCell(new Cell().add("total con el iva"));
+            table.addCell(new Cell().add("Producto  sin iva"));
+            table.addCell(new Cell().add("Producto  con iva"));
+            table.addCell(new Cell().add("total productos con el iva"));
 
 
             // Añadir los datos de los productos a la tabla
 
 
             for (Productos producto : ped) {
-
+                double totalPreciosProducto = producto.getPrecio() * producto.getCantidad();
+                double precioUnitario = producto.getPrecio() / 1.19;
+                System.out.println("precioUnitario = " + precioUnitario);
+                System.out.println("producto.getPrecio() = " + producto.getPrecio());
                 indice++;
                 table.addCell(new Cell().add(String.valueOf(indice)));
                 table.addCell(new Cell().add(String.valueOf(producto.getIdProductos())));
                 table.addCell(new Cell().add(producto.getNombre()));
                 table.addCell(new Cell().add(String.valueOf(producto.getCantidad())));
                 table.addCell(new Cell().add(String.valueOf(producto.getIva())));
+                table.addCell(new Cell().add(String.valueOf(precioUnitario)));
                 table.addCell(new Cell().add(String.valueOf(producto.getPrecio())));
+                table.addCell(new Cell().add(String.valueOf(totalPreciosProducto)));
+
 
 
             }
