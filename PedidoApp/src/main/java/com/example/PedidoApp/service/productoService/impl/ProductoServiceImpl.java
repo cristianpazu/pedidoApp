@@ -3,9 +3,11 @@ package com.example.PedidoApp.service.productoService.impl;
 import com.example.PedidoApp.model.Bodega;
 import com.example.PedidoApp.model.Categoria;
 import com.example.PedidoApp.model.Productos;
+import com.example.PedidoApp.model.Stock;
 import com.example.PedidoApp.repository.BodegaRepository.BodegaRepository;
 import com.example.PedidoApp.repository.CategoriaRepository.CategoriaRepository;
 import com.example.PedidoApp.repository.ProductoRepository.ProductoRepository;
+import com.example.PedidoApp.repository.StockRepository.StockRepository;
 import com.example.PedidoApp.service.productoService.ProductoServiceInterface;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,6 +33,8 @@ public class ProductoServiceImpl implements ProductoServiceInterface {
     private CategoriaRepository categoriaRepository;
     @Autowired
     private BodegaRepository bodegaRepository;
+    @Autowired
+    private StockRepository stockRepository;
 
     @Override
     public Productos registrarProducto(Productos productos) {
@@ -47,13 +51,31 @@ public class ProductoServiceImpl implements ProductoServiceInterface {
                     .map(bodegas -> bodegaRepository.findById(bodegas.getIdBodega()).orElseThrow(
                             () -> new RuntimeException("Bodega no encontrada")
                     )).collect(Collectors.toSet());
+/*
+            // Bodega bodegaList = bodegaRepository.findById(productos.getStocks().getBodega().getIdBodega()).orElseThrow(() -> new RuntimeException("Bodega no encontrada"));
+            List<Integer> pr = productos.getBodega().stream().map(re -> re.getStocks().getCantidadStock()).collect(Collectors.toList());
+            int a = 0;
 
-         // Bodega bodegaList = bodegaRepository.findById(productos.getStocks().getBodega().getIdBodega()).orElseThrow(() -> new RuntimeException("Bodega no encontrada"));
+            for (Integer elemento : pr) {
+                a = elemento;
+                Bodega as = null;
+                for (Bodega da : bodegaList) {
 
-            for (Bodega da : bodegaList){
-                System.out.println("bodegaList = " + da.getStocks().getCantidadStock());
+                    da.getStocks().setCantidadStock(a);
 
-            }
+                    Stock stock = new Stock();
+                    System.out.println("stock.getIdStock() = " + stock.getIdStock());
+                    stockRepository.save(stock);
+
+
+                }
+
+
+
+
+
+            }*/
+
 
 
             if (productos.getIva() > 0) {

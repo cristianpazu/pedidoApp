@@ -23,10 +23,10 @@ public class Bodega {
 
      String fechaCreacionBodega;
 
- /*   @ManyToMany(mappedBy = "Bodega")
-    private Set<Productos> productosSet; */
-
+   @ManyToMany(mappedBy = "Bodega")
+    private Set<Productos> productosSet;
+/*
  @OneToOne(cascade = CascadeType.ALL)
  @JoinColumn(name = "stock_id")
- private Stock stocks;
+ private Stock stocks;*/
 }

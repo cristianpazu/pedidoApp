@@ -52,7 +52,7 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
 
 
         Productos productoPedido = null;
-        Bodega bodegass = null;
+       // Bodega bodegass = null;
 
 
         Bodega bodega = new Bodega();
@@ -70,22 +70,21 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
                     productoPedido.setCantidad(ped2.getCantidad());
 
 
-                    for (Bodega br : bodegaList) {
-                        System.out.println("bodegaList = " + br.getStocks().getCantidadStock());
+                 /*   for (Bodega br : bodegaList) {
+                        System.out.println("bodegaList = " + ped2.getStocks().getCantidadStock());
                         //br.set();
-
-                        if (br.getStocks().getCantidadStock() == 0) {
+                    }*/
+                        if (productoPedido.getStocks().getCantidadStock() == 0) {
                             throw new RuntimeException("No hay suficiente stock disponible para el producto");
                         }
 
-                        int stockActualizado = br.getStocks().getCantidadStock() - ped2.getCantidad();
-                        System.out.println(">>>>>>>>>>>><<<<<<<<<<<<<<<<<" + br.getStocks().getCantidadStock());
-                        for (Bodega psa : bodegaList) {
+                        int stockActualizado = productoPedido.getStocks().getCantidadStock() - ped2.getCantidad();
+                       /*    for (Bodega psa : bodegaList) {
                             bodegass = psa;
                             System.out.println(">>>>>>>>>>>><<<<<<<<<<<<<<<<<" + bodegass.getStocks().getCantidadStock());
-                            bodegass.getStocks().setCantidadStock(stockActualizado);
-                        }
-                    }
+                        } */
+
+                    productoPedido.getStocks().setCantidadStock(stockActualizado);
 
 
                 } else {
