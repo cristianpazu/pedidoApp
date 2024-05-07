@@ -23,6 +23,8 @@ public class Bodega {
 
      String fechaCreacionBodega;
 
+
+   @Transient
    @ManyToMany(mappedBy = "Bodega")
     private Set<Productos> productosSet;
 /*

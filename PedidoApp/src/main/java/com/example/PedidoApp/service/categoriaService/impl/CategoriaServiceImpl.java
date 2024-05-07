@@ -27,9 +27,6 @@ public class CategoriaServiceImpl implements CategoriaServiceInterface {
     public Categoria registrarCategoria(Categoria categoria) {
 
 
-        if (categoriaRepository.findById(categoria.getIdCategoria()).isPresent()) {
-            throw new RequestException(MensajeErrorEnum.CATEGORIA_NO_EXITE, HttpStatus.BAD_REQUEST.value());
-        }
 
         try {
 
