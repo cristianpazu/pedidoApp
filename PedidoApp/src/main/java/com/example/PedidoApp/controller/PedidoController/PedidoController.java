@@ -50,7 +50,7 @@ public class PedidoController {
 
     @GetMapping("/generate-pdf/{id}")
     public void generarPdfVenta(HttpServletResponse response, @PathVariable Long id) throws Exception {
-
+        System.out.println("sadfdddddddddddddddddddd");
         ventaReports.ventaReports(response, pedidoService.traerPorId(id));
 
     }
