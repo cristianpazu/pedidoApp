@@ -1,13 +1,17 @@
 package com.example.PedidoApp.service.bodegaService.impl;
 
+import com.example.PedidoApp.Exceptions.MensajeErrorEnum;
+import com.example.PedidoApp.Exceptions.RequestException;
 import com.example.PedidoApp.model.Bodega;
 import com.example.PedidoApp.repository.BodegaRepository.BodegaRepository;
 import com.example.PedidoApp.service.bodegaService.BodegaServiceInterface;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Slf4j
 @Service
 public class BodegaServiceImpl implements BodegaServiceInterface {
 
@@ -44,9 +48,11 @@ public class BodegaServiceImpl implements BodegaServiceInterface {
     public Bodega traerIdBoderga(Long id) {
         try {
             return bodegaRepository.findById(id).orElseThrow(
-                    () -> new RuntimeException("La Bodega no encontrado"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    () -> new RequestException(MensajeErrorEnum.BODEGA_NO_ENCONTRADA, HttpStatus.BAD_REQUEST.value()));
+        } catch(RuntimeException ex) {
+            log.error("traerBodega: ".concat(ex.getMessage())
+            );
+            throw new RuntimeException(ex);
         }
     }
 }
