@@ -1,16 +1,17 @@
 package com.example.PedidoApp.service.Pedido.impl;
 
-import com.example.PedidoApp.model.Categoria;
-import com.example.PedidoApp.model.Cliente;
+import com.example.PedidoApp.Exceptions.MensajeErrorEnum;
+import com.example.PedidoApp.Exceptions.RequestException;
+import com.example.PedidoApp.model.*;
 import com.example.PedidoApp.model.DTO.ClienteDTO;
-import com.example.PedidoApp.model.Pedido;
-import com.example.PedidoApp.model.Productos;
+import com.example.PedidoApp.repository.BodegaRepository.BodegaRepository;
 import com.example.PedidoApp.repository.ClienteRepository.ClienteRepository;
 import com.example.PedidoApp.repository.Pedido.PedidoRepository;
 import com.example.PedidoApp.repository.ProductoRepository.ProductoRepository;
 import com.example.PedidoApp.service.Pedido.PedidoServiceInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -33,19 +34,27 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
     @Autowired
     PedidoRepository pedidoRepository;
 
+    @Autowired
+    BodegaRepository bodegaRepository;
+
     @Override
     public Pedido registrarPedido(Pedido pedido) {
-
+        System.out.println("asddddddddddd"+ pedido);
         Set<Productos> productosList = pedido.getProductos().stream()
                 .map(producto -> productoRepository.findById(producto.getIdProductos()).orElseThrow(
-                        () -> new RuntimeException("Producto no encontrada")
+                        () -> new RequestException(MensajeErrorEnum.PRODUCTO_NO_ENCONTRADO, HttpStatus.BAD_REQUEST.value())
                 )).collect(Collectors.toSet());
 
 
+        System.out.println("productosList = " + productosList);
         List<Productos> ped = pedido.getProductos().stream().collect(Collectors.toList());
 
+        System.out.println("ped = " + ped);
 
-        Productos productoPedido = null;
+        Productos productoPedido = new Productos();
+
+
+
 
         for (Productos pr : productosList) {
             productoPedido = pr;
@@ -59,13 +68,15 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
                     productoPedido.setCantidad(ped2.getCantidad());
 
 
-                    if (productoPedido.getStocks().getCantidadStock() == 0) {
-                        throw new RuntimeException("No hay suficiente stock disponible para el producto");
-                    }
+                        if (productoPedido.getStocks().getCantidadStock() == 0) {
+                            throw new RuntimeException("No hay suficiente stock disponible para el producto");
+                        }
 
-                    int stockActualizado = productoPedido.getStocks().getCantidadStock() - ped2.getCantidad();
+                        int stockActualizado = productoPedido.getStocks().getCantidadStock() - ped2.getCantidad();
+
 
                     productoPedido.getStocks().setCantidadStock(stockActualizado);
+
 
                 } else {
                     System.out.println("no se puede");
@@ -88,17 +99,20 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
 
         Cliente clientes = clienteRepository.findById(pedido.getClientes().getIdCliente()).orElseThrow
                 (() -> new RuntimeException("Cliente no encontrado con ID: " + pedido.getClientes().getIdCliente()));
+        System.out.println("clientes = " + clientes);
+        
         log.info("clientes:" + clientes.getNombre());
         try {
 
             Date fecha = new Date();
             SimpleDateFormat df = new SimpleDateFormat("EEEE dd,MMMM, yyyy");
             String fechaStr = df.format(fecha);
-
-            pedido.setProductos(productosList);
-            pedido.setClientes(clientes);
             pedido.setTotal(total);
             pedido.setFechaPedido(fechaStr);
+            pedido.setProductos(productosList);
+            pedido.setClientes(clientes);
+
+            System.out.println("pedido = " + pedido);
             pedidoRepository.save(pedido);
             return pedido;
 

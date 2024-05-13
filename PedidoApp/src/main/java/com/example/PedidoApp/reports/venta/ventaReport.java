@@ -1,5 +1,7 @@
 package com.example.PedidoApp.reports.venta;
 
+import com.example.PedidoApp.model.Bodega;
+import com.example.PedidoApp.model.Cliente;
 import com.example.PedidoApp.model.Pedido;
 import com.example.PedidoApp.model.Productos;
 import com.itextpdf.io.font.FontConstants;
@@ -35,28 +37,65 @@ public class ventaReport {
 
         Paragraph onesp = new Paragraph("\n");
         try{
+            Bodega ndg = new Bodega();
             List<Productos> ped = pedido.getProductos().stream().collect(Collectors.toList());
+          Cliente clienteList = pedido.getClientes();
+            int indice = 0;
+
 
             Productos productoPedido = null;
-           /* for (Productos pr : ped) {
-                productoPedido = pr;
-                System.out.println(productoPedido.getIdProductos());
-            } */
+            float twocol = 386f;
+            Table nestedTable = new Table(new float[]{twocol / 2, twocol / 2});
 
-            Table table = new Table(4);
+            Table table = new Table(8);
+
+                nestedTable.addCell(new Cell().add("Documento"));
+                nestedTable.addCell(new Cell().add(String.valueOf(clienteList.getDocumento())));
+                nestedTable.addCell(new Cell().add("Nombre"));
+                nestedTable.addCell(new Cell().add(String.valueOf(clienteList.getNombre())));
+                nestedTable.addCell(new Cell().add("Apellido"));
+                nestedTable.addCell(new Cell().add(String.valueOf(clienteList.getApellido())));
+                nestedTable.addCell(new Cell().add("Direccion"));
+                nestedTable.addCell(new Cell().add(String.valueOf(clienteList.getDireccion())));
+                nestedTable.addCell(new Cell().add("celular"));
+                nestedTable.addCell(new Cell().add(String.valueOf(clienteList.getCelular())));
+
+
+            document.add(nestedTable);
+
+
 
             // Añadir los encabezados de las columnas
-            table.addCell(new Cell().add("ID"));
+            table.addCell(new Cell().add("Item"));
+            table.addCell(new Cell().add("Codigo del producto"));
             table.addCell(new Cell().add("Nombre"));
+            table.addCell(new Cell().add("Cantidad"));
             table.addCell(new Cell().add("Iva"));
-            table.addCell(new Cell().add("total con el iva"));
+            table.addCell(new Cell().add("Producto  sin iva"));
+            table.addCell(new Cell().add("Producto  con iva"));
+            table.addCell(new Cell().add("total productos con el iva"));
+
 
             // Añadir los datos de los productos a la tabla
+
+
             for (Productos producto : ped) {
+                double totalPreciosProducto = producto.getPrecio() * producto.getCantidad();
+                double precioUnitario = producto.getPrecio() / 1.19;
+                System.out.println("precioUnitario = " + precioUnitario);
+                System.out.println("producto.getPrecio() = " + producto.getPrecio());
+                indice++;
+                table.addCell(new Cell().add(String.valueOf(indice)));
                 table.addCell(new Cell().add(String.valueOf(producto.getIdProductos())));
                 table.addCell(new Cell().add(producto.getNombre()));
+                table.addCell(new Cell().add(String.valueOf(producto.getCantidad())));
                 table.addCell(new Cell().add(String.valueOf(producto.getIva())));
+                table.addCell(new Cell().add(String.valueOf(precioUnitario)));
                 table.addCell(new Cell().add(String.valueOf(producto.getPrecio())));
+                table.addCell(new Cell().add(String.valueOf(totalPreciosProducto)));
+
+
+
             }
      /*       float twocol = 505f;
             float twocolumnWidth[] = {500f, 500f};

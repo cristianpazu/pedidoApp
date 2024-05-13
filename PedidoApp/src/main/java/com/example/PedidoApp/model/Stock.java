@@ -16,4 +16,9 @@ public class Stock {
 
     Integer cantidadStock;
 
+/*
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bodega_id")
+    private Bodega bodega; */
+
 }

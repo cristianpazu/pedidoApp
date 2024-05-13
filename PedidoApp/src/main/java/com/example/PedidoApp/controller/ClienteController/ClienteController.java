@@ -19,29 +19,21 @@ public class ClienteController {
 
     @PostMapping("/registrarCliente")
     public ResponseEntity<Object> registrarClientes(@RequestBody Cliente cliente) {
-        try {
-            return new ResponseHandler().generateResponse(
-                    HttpStatus.OK, clienteService.registrarCliente(cliente)
-            );
-                    //ResponseEntity<>(  clienteService.registrarCliente(cliente), HttpStatus.CREATED);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+
+        return new ResponseHandler().generateResponse(
+                HttpStatus.OK, clienteService.registrarCliente(cliente)
+        );
+        //ResponseEntity<>(  clienteService.registrarCliente(cliente), HttpStatus.CREATED);
+
     }
 
 
     @GetMapping("/traerClienteid/{id}")
     public ResponseEntity<Object> ClientePorId(@PathVariable Long id) {
-        try {
+   
 
-            return new ResponseHandler().generateResponse(
-                    HttpStatus.OK,clienteService.traerClienteId(id));
-
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-
-        }
+        return new ResponseHandler().generateResponse(
+                HttpStatus.OK, clienteService.traerClienteId(id));
 
 
     }

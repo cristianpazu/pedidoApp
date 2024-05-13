@@ -4,8 +4,11 @@ import com.example.PedidoApp.model.Pedido;
 import com.example.PedidoApp.model.Productos;
 import com.example.PedidoApp.reports.venta.ventaReport;
 import com.example.PedidoApp.service.Pedido.impl.PedidoServiceImpl;
+import com.example.PedidoApp.utils.ResponseHandler;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,9 +22,8 @@ public class PedidoController {
     PedidoServiceImpl pedidoService;
 
 
-
     @Autowired
-    public PedidoController( ventaReport ventaReportspdf, PedidoServiceImpl pedidoService) {
+    public PedidoController(ventaReport ventaReportspdf, PedidoServiceImpl pedidoService) {
 
         this.ventaReports = ventaReportspdf;
         this.pedidoService = pedidoService;
@@ -29,35 +31,29 @@ public class PedidoController {
 
 
     @PostMapping("/registrarPedido")
-    public Pedido registrarPedido(@RequestBody Pedido pedido) {
-        try {
+    public ResponseEntity<Object> registrarPedido(@RequestBody Pedido pedido) {
 
 
-            return pedidoService.registrarPedido(pedido);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-
-        }
+        return new ResponseHandler().generateResponse(HttpStatus.OK, pedidoService.registrarPedido(pedido));
 
 
     }
 
 
     @GetMapping("/traerporId/{id}")
-    public Pedido traerProducto(@PathVariable Long id) {
+    public ResponseEntity<Object> traerProducto(@PathVariable Long id) {
 
-        return pedidoService.traerPorId(id);
+        return new ResponseHandler().generateResponse(HttpStatus.OK, pedidoService.traerPorId(id));
 
     }
 
 
     @GetMapping("/generate-pdf/{id}")
     public void generarPdfVenta(HttpServletResponse response, @PathVariable Long id) throws Exception {
-
+        System.out.println("sadfdddddddddddddddddddd");
         ventaReports.ventaReports(response, pedidoService.traerPorId(id));
 
     }
-
 
 
 }

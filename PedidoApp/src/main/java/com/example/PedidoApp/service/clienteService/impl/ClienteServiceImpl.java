@@ -1,6 +1,8 @@
 package com.example.PedidoApp.service.clienteService.impl;
 
 //import com.example.PedidoApp.mappers.ClienteMapper;
+import com.example.PedidoApp.Exceptions.MensajeErrorEnum;
+import com.example.PedidoApp.Exceptions.RequestException;
 import com.example.PedidoApp.model.Cliente;
 import com.example.PedidoApp.model.DTO.ClienteDTO;
 import com.example.PedidoApp.model.DTO.ClienteRespuestaDTO;
@@ -9,6 +11,7 @@ import com.example.PedidoApp.repository.ClienteRepository.ClienteRepository;
 import com.example.PedidoApp.service.clienteService.ClienteServiceInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,7 +31,7 @@ public class ClienteServiceImpl implements ClienteServiceInterface {
         //Cliente cliente = clienteMapper.clienteTOclienteDto(clienteDTO);
 
         if (clienteRepository.findClienteByDocumento(cliente.getDocumento()).isPresent()) {
-            throw new RuntimeException("El documento ya esta registrado");
+            throw new RequestException(MensajeErrorEnum.CLIENTE_DOCUMENTO_NO_EXITE, HttpStatus.BAD_REQUEST.value());
         }
    //     ClienteDTO cliente1 = clienteRepository.findById(cliente.getIdCliente()).orElseThrow(() -> new RuntimeException("hubo un error en el registro"));
 
@@ -48,7 +51,8 @@ public class ClienteServiceImpl implements ClienteServiceInterface {
     @Override
     public Cliente traerClienteId(Long id) {
         Cliente cliente = clienteRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("La cliente no encontrado"));
+                () -> new RequestException(MensajeErrorEnum.CLIENTE_NO_EXITE, HttpStatus.BAD_REQUEST.value()));
+
         try{
             return cliente;
         }catch (Exception e){

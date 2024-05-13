@@ -19,11 +19,16 @@ public class Bodega {
     Long idBodega;
 
 
-    String nombre;
+     String nombre;
 
-    private String fechaCreacionBodega;
+     String fechaCreacionBodega;
 
-    @ManyToMany(mappedBy = "Bodega")
+
+   @Transient
+   @ManyToMany(mappedBy = "Bodega")
     private Set<Productos> productosSet;
-
+/*
+ @OneToOne(cascade = CascadeType.ALL)
+ @JoinColumn(name = "stock_id")
+ private Stock stocks;*/
 }
