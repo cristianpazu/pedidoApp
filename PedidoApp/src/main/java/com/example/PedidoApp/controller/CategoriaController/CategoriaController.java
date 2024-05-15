@@ -1,6 +1,7 @@
 package com.example.PedidoApp.controller.CategoriaController;
 
 import com.example.PedidoApp.model.Categoria;
+import com.example.PedidoApp.model.DTO.CategoriaDTO;
 import com.example.PedidoApp.model.Productos;
 import com.example.PedidoApp.service.categoriaService.impl.CategoriaServiceImpl;
 import com.example.PedidoApp.service.productoService.impl.ProductoServiceImpl;
@@ -24,9 +25,9 @@ public class CategoriaController {
     private  CategoriaServiceImpl categoriaService;
 
     @PostMapping("/registrarCategoria")
-    public ResponseEntity<Object> registrarCategoria(@RequestBody Categoria categoria){
+    public ResponseEntity<Object> registrarCategoria(@RequestBody CategoriaDTO categoriaDTO){
 
-        return  new ResponseHandler().generateResponse(HttpStatus.OK, categoriaService.registrarCategoria(categoria));
+        return  new ResponseHandler().generateResponse(HttpStatus.OK, categoriaService.registrarCategoria(categoriaDTO));
 
     }
 }

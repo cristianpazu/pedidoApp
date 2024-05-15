@@ -2,7 +2,10 @@ package com.example.PedidoApp.service.categoriaService.impl;
 
 import com.example.PedidoApp.Exceptions.MensajeErrorEnum;
 import com.example.PedidoApp.Exceptions.RequestException;
+import com.example.PedidoApp.mappers.CategoriaMapper;
 import com.example.PedidoApp.model.Categoria;
+import com.example.PedidoApp.model.DTO.CategoriaDTO;
+import com.example.PedidoApp.model.DTO.CategoriaResponseDTO;
 import com.example.PedidoApp.model.Productos;
 import com.example.PedidoApp.repository.CategoriaRepository.CategoriaRepository;
 import com.example.PedidoApp.service.categoriaService.CategoriaServiceInterface;
@@ -18,19 +21,24 @@ import java.util.List;
 
 
 @Service
+@AllArgsConstructor
 public class CategoriaServiceImpl implements CategoriaServiceInterface {
+
+    private final CategoriaMapper categoriaMapper;
 
     @Autowired
     private CategoriaRepository categoriaRepository;
 
     @Override
-    public Categoria registrarCategoria(Categoria categoria) {
+    public CategoriaResponseDTO registrarCategoria(CategoriaDTO categoriaDTO) {
 
 
 
         try {
+            Categoria registrarCategoria = categoriaMapper.registarCategoriaRespuestaDtTO(categoriaDTO);
+            registrarCategoria = categoriaRepository.save(registrarCategoria);
 
-            return categoriaRepository.save(categoria);
+            return categoriaMapper.categoriaResponseDto(registrarCategoria);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
