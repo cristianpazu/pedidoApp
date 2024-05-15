@@ -41,4 +41,16 @@ public class Cliente {
    private List<Pedido> pedidos;
 
 
+
+    @ManyToOne
+    @JoinTable(name = "cliente_usuario",
+            joinColumns = @JoinColumn(
+                    name = "cliente_id"
+            ), inverseJoinColumns = @JoinColumn(name = "usuario_id")
+
+
+    )
+    private Usuario usuario;
+
+
 }

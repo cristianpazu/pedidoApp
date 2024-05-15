@@ -43,6 +43,10 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Pedido> pedidos;
 
+    @Transient
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Cliente> clientes;
+
     /*
     @Transient
     @ManyToMany(fetch = FetchType.EAGER)
