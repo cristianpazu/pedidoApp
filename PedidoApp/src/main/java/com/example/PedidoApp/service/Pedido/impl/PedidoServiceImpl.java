@@ -8,6 +8,7 @@ import com.example.PedidoApp.repository.BodegaRepository.BodegaRepository;
 import com.example.PedidoApp.repository.ClienteRepository.ClienteRepository;
 import com.example.PedidoApp.repository.Pedido.PedidoRepository;
 import com.example.PedidoApp.repository.ProductoRepository.ProductoRepository;
+import com.example.PedidoApp.repository.UsuarioRepository.UsuarioRepository;
 import com.example.PedidoApp.service.Pedido.PedidoServiceInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
 
     @Autowired
     BodegaRepository bodegaRepository;
+
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
     @Override
     public Pedido registrarPedido(Pedido pedido) {
@@ -99,6 +103,9 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
 
         Cliente clientes = clienteRepository.findById(pedido.getClientes().getIdCliente()).orElseThrow
                 (() -> new RuntimeException("Cliente no encontrado con ID: " + pedido.getClientes().getIdCliente()));
+
+        Usuario usuarios = usuarioRepository.findById(pedido.getUsuario().getIdUsuario()).orElseThrow
+                (() -> new RuntimeException("Usuario no encontrado con ID: " + pedido.getUsuario().getIdUsuario()));
         System.out.println("clientes = " + clientes);
         
         log.info("clientes:" + clientes.getNombre());
@@ -111,6 +118,7 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
             pedido.setFechaPedido(fechaStr);
             pedido.setProductos(productosList);
             pedido.setClientes(clientes);
+            pedido.setUsuario(usuarios);
 
             System.out.println("pedido = " + pedido);
             pedidoRepository.save(pedido);

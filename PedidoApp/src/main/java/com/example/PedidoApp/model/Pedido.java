@@ -44,4 +44,14 @@ public class Pedido {
 
     )
    private Cliente clientes;
+
+    @ManyToOne
+    @JoinTable(name = "pedido_usuario",
+            joinColumns = @JoinColumn(
+                    name = "pedido_id"
+            ), inverseJoinColumns = @JoinColumn(name = "usuario_id")
+
+
+    )
+    private Usuario usuario;
 }
