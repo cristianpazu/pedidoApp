@@ -144,4 +144,18 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
         }
     }
 
+    @Override
+    public List<Pedido> traerTodoPedido() {
+
+        try{
+
+
+            return pedidoRepository.findAll();
+
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }

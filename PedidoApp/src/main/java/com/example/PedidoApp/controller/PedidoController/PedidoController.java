@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/pedido")
 public class PedidoController {
@@ -52,6 +54,13 @@ public class PedidoController {
     public void generarPdfVenta(HttpServletResponse response, @PathVariable Long id) throws Exception {
         System.out.println("sadfdddddddddddddddddddd");
         ventaReports.ventaReports(response, pedidoService.traerPorId(id));
+
+    }
+
+    @GetMapping("/traertodoPedido")
+    public ResponseEntity<Object> traerTodPedido( ) throws Exception {
+
+        return new ResponseHandler().generateResponse(HttpStatus.OK, pedidoService.traerTodoPedido());
 
     }
 
