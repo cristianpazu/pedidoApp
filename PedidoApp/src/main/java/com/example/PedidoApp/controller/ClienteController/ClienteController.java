@@ -29,7 +29,7 @@ public class ClienteController {
 
 
     @GetMapping("/traerClienteid/{id}")
-    public ResponseEntity<Object> ClientePorId(@PathVariable Long id) {
+    public ResponseEntity<Object> ClientePorId(@PathVariable Integer id) {
    
 
         return new ResponseHandler().generateResponse(

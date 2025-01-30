@@ -16,7 +16,7 @@ import java.util.Set;
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long idCliente;
+    Integer idCliente;
 
 
     Integer documento;

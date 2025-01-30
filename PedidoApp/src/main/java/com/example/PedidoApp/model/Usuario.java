@@ -18,7 +18,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long idUsuario;
+    Integer idUsuario;
 
 
     Integer documento;

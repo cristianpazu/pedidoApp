@@ -7,9 +7,9 @@ import com.example.PedidoApp.model.Productos;
 
 public interface ClienteServiceInterface {
 
-    Cliente registrarCliente(Cliente cliente);
+    ClienteDTO registrarCliente(Cliente cliente);
 
-    Cliente traerClienteId(Long id);
+    Cliente traerClienteId(Integer id);
 
 
 

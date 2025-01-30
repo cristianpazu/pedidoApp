@@ -119,7 +119,7 @@ public class ProductoServiceImpl implements ProductoServiceInterface {
     }
 
     @Override
-    public Productos traerProductoId(Long id) {
+    public Productos traerProductoId(Integer id) {
 
         Productos producto = productoRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("La Prodcuto no encontrado"));

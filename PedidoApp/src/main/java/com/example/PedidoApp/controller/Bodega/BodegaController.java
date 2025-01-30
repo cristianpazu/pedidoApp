@@ -34,7 +34,7 @@ public class BodegaController {
     }
 
     @GetMapping("/listarBodega/{id}")
-    public ResponseEntity<Object> listarBodega(@PathVariable Long id) {
+    public ResponseEntity<Object> listarBodega(@PathVariable Integer id) {
         return new ResponseHandler().generateResponse(HttpStatus.OK, bodegaService.traerIdBoderga(id));
     }
 

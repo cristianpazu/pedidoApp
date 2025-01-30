@@ -3,6 +3,7 @@ package com.example.PedidoApp.service.clienteService.impl;
 //import com.example.PedidoApp.mappers.ClienteMapper;
 import com.example.PedidoApp.Exceptions.MensajeErrorEnum;
 import com.example.PedidoApp.Exceptions.RequestException;
+import com.example.PedidoApp.mappers.ClientesMappers;
 import com.example.PedidoApp.model.Cliente;
 import com.example.PedidoApp.model.DTO.ClienteDTO;
 import com.example.PedidoApp.model.DTO.ClienteRespuestaDTO;
@@ -32,7 +33,7 @@ public class ClienteServiceImpl implements ClienteServiceInterface {
 
 
     @Override
-    public Cliente registrarCliente(Cliente cliente) {
+    public ClienteDTO registrarCliente(Cliente cliente) {
 
         //Cliente cliente = clienteMapper.clienteTOclienteDto(clienteDTO);
 
@@ -54,7 +55,12 @@ public class ClienteServiceImpl implements ClienteServiceInterface {
          //                           .build();
             cliente.setEstado("A");
             cliente.setUsuario(usuario);
-            return clienteRepository.save(cliente);
+
+            // ClienteDTO clienteDTO = ClientesMappers.CLIENTES_MAPPERS.clienteToClienteDTO(cliente);
+
+
+            return ClientesMappers.CLIENTES_MAPPERS.clienteToClienteDTO(cliente);
+                    //clienteRepository.save(clienteDTO);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -63,7 +69,7 @@ public class ClienteServiceImpl implements ClienteServiceInterface {
     }
 
     @Override
-    public Cliente traerClienteId(Long id) {
+    public Cliente traerClienteId(Integer id) {
         Cliente cliente = clienteRepository.findById(id).orElseThrow(
                 () -> new RequestException(MensajeErrorEnum.CLIENTE_NO_EXITE, HttpStatus.BAD_REQUEST.value()));
 

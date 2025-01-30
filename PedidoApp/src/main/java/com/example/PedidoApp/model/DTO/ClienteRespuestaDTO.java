@@ -11,7 +11,7 @@ public class ClienteRespuestaDTO {
 
 
 
-    Long idCliente;
+    Integer idCliente;
 
 
     Integer documento;

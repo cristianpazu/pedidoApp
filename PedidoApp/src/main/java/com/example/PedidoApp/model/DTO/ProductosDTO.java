@@ -15,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class ProductosDTO {
 
-    Long idProductos;
+    Integer idProductos;
 
 
     String nombre;

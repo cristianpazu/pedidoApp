@@ -132,7 +132,7 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
     }
 
     @Override
-    public Pedido traerPorId(Long id) {
+    public Pedido traerPorId(Integer id) {
         Pedido pedido = pedidoRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("El pedido no encontrado"));
         try {

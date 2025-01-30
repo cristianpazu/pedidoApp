@@ -9,7 +9,7 @@ public interface PedidoServiceInterface {
 
     Pedido registrarPedido(Pedido pedido );
 
-   Pedido traerPorId(Long id);
+   Pedido traerPorId(Integer id);
 
 
   List<Pedido> traerTodoPedido();

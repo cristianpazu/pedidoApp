@@ -1,17 +1,18 @@
 package com.example.PedidoApp.service.bodegaService;
 
 import com.example.PedidoApp.model.Bodega;
+import com.example.PedidoApp.model.DTO.BodegaDTO;
 
 import java.util.List;
 
 public interface BodegaServiceInterface {
 
 
-    Bodega registrarBodega(Bodega bodega);
+    BodegaDTO registrarBodega(Bodega bodega);
 
-    List<Bodega> traerTodasBoderga();
+    List<BodegaDTO> traerTodasBoderga();
     Bodega actualizarBodega(Bodega bodega);
-    Bodega traerIdBoderga(Long id);
+    Bodega traerIdBoderga(Integer id);
 
 
 }

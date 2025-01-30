@@ -18,7 +18,7 @@ public class Pedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long idPedido;
+    Integer idPedido;
 
     String fechaPedido;
 
