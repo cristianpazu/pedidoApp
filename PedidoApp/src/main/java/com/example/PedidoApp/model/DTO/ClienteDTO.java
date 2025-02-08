@@ -4,18 +4,18 @@ import com.example.PedidoApp.model.Cliente;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
+
+@Builder
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class ClienteDTO extends Cliente {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class ClienteDTO {
 
 
 
-    Long idCliente;
+    Integer idCliente;
 
 
     Integer documento;

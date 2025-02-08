@@ -18,7 +18,7 @@ public class Pedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long idPedido;
+    Integer idPedido;
 
     String fechaPedido;
 
@@ -44,4 +44,14 @@ public class Pedido {
 
     )
    private Cliente clientes;
+
+    @ManyToOne
+    @JoinTable(name = "pedido_usuario",
+            joinColumns = @JoinColumn(
+                    name = "pedido_id"
+            ), inverseJoinColumns = @JoinColumn(name = "usuario_id")
+
+
+    )
+    private Usuario usuario;
 }

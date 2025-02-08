@@ -3,16 +3,21 @@ package com.example.PedidoApp.service.clienteService.impl;
 //import com.example.PedidoApp.mappers.ClienteMapper;
 import com.example.PedidoApp.Exceptions.MensajeErrorEnum;
 import com.example.PedidoApp.Exceptions.RequestException;
+import com.example.PedidoApp.mappers.ClientesMappers;
 import com.example.PedidoApp.model.Cliente;
 import com.example.PedidoApp.model.DTO.ClienteDTO;
 import com.example.PedidoApp.model.DTO.ClienteRespuestaDTO;
 import com.example.PedidoApp.model.Productos;
+import com.example.PedidoApp.model.Usuario;
 import com.example.PedidoApp.repository.ClienteRepository.ClienteRepository;
+import com.example.PedidoApp.repository.UsuarioRepository.UsuarioRepository;
 import com.example.PedidoApp.service.clienteService.ClienteServiceInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -21,14 +26,23 @@ public class ClienteServiceImpl implements ClienteServiceInterface {
     @Autowired
     ClienteRepository clienteRepository;
 
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
     //private ClienteMapper clienteMapper;
 
 
     @Override
-    public Cliente registrarCliente(Cliente cliente) {
+    public ClienteDTO registrarCliente(Cliente cliente) {
 
         //Cliente cliente = clienteMapper.clienteTOclienteDto(clienteDTO);
+
+        Usuario usuario = usuarioRepository.findById(cliente.getUsuario().getIdUsuario()).orElseThrow(
+                (() -> new RuntimeException("Usuario no encontrado con ID: " + cliente.getUsuario().getIdUsuario())));
+
+
+
+
 
         if (clienteRepository.findClienteByDocumento(cliente.getDocumento()).isPresent()) {
             throw new RequestException(MensajeErrorEnum.CLIENTE_DOCUMENTO_NO_EXITE, HttpStatus.BAD_REQUEST.value());
@@ -40,7 +54,13 @@ public class ClienteServiceImpl implements ClienteServiceInterface {
        //                     .nombre(cliente1.getNombre())
          //                           .build();
             cliente.setEstado("A");
-            return clienteRepository.save(cliente);
+            cliente.setUsuario(usuario);
+
+            // ClienteDTO clienteDTO = ClientesMappers.CLIENTES_MAPPERS.clienteToClienteDTO(cliente);
+
+
+            return ClientesMappers.CLIENTES_MAPPERS.clienteToClienteDTO(cliente);
+                    //clienteRepository.save(clienteDTO);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -49,7 +69,7 @@ public class ClienteServiceImpl implements ClienteServiceInterface {
     }
 
     @Override
-    public Cliente traerClienteId(Long id) {
+    public Cliente traerClienteId(Integer id) {
         Cliente cliente = clienteRepository.findById(id).orElseThrow(
                 () -> new RequestException(MensajeErrorEnum.CLIENTE_NO_EXITE, HttpStatus.BAD_REQUEST.value()));
 

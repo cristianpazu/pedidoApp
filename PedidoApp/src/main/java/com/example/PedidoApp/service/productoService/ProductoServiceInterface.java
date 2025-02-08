@@ -12,7 +12,7 @@ public interface ProductoServiceInterface {
     List<Productos> traerTodoProducto();
 
 
-    Productos traerProductoId(Long id);
+    Productos traerProductoId(Integer id);
 
 
 

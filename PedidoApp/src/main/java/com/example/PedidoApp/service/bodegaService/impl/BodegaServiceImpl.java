@@ -2,7 +2,11 @@ package com.example.PedidoApp.service.bodegaService.impl;
 
 import com.example.PedidoApp.Exceptions.MensajeErrorEnum;
 import com.example.PedidoApp.Exceptions.RequestException;
+import com.example.PedidoApp.mappers.BodegaMappers;
+import com.example.PedidoApp.mappers.ClientesMappers;
 import com.example.PedidoApp.model.Bodega;
+import com.example.PedidoApp.model.DTO.BodegaDTO;
+import com.example.PedidoApp.model.DTO.ClienteDTO;
 import com.example.PedidoApp.repository.BodegaRepository.BodegaRepository;
 import com.example.PedidoApp.service.bodegaService.BodegaServiceInterface;
 import lombok.extern.slf4j.Slf4j;
@@ -19,21 +23,33 @@ public class BodegaServiceImpl implements BodegaServiceInterface {
     BodegaRepository bodegaRepository;
 
     @Override
-    public Bodega registrarBodega(Bodega bodega) {
+    public BodegaDTO registrarBodega(Bodega bodega) {
         try {
 
             System.out.println("bodegoassss"+bodega);
-            return bodegaRepository.save(bodega);
+
+         //   BodegaDTO bodegaDTO = BodegaMappers.BODEGA_MAPPERS.bodegaToBodegaDTO(bodega);
+              return BodegaMappers.BODEGA_MAPPERS.bodegaToBodegaDTO(bodega);
+                      //bodegaRepository.save(bodegaDTO);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public List<Bodega> traerTodasBoderga() {
+    public List<BodegaDTO> traerTodasBoderga() {
         try {
+           List<Bodega> bg = bodegaRepository.findAll();
 
-            return bodegaRepository.findAll();
+
+            return bg.stream().map(bodegas -> BodegaDTO.builder()
+
+                    .idBodega(bodegas.getIdBodega())
+                    .nombre(bodegas.getNombre())
+                    .fechaCreacionBodega(bodegas.getFechaCreacionBodega())
+                    .build()
+            ).toList();
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -45,10 +61,17 @@ public class BodegaServiceImpl implements BodegaServiceInterface {
     }
 
     @Override
-    public Bodega traerIdBoderga(Long id) {
+    public Bodega traerIdBoderga(Integer id) {
         try {
-            return bodegaRepository.findById(id).orElseThrow(
+
+        Bodega bodegaId =    bodegaRepository.findById(id).orElseThrow(
                     () -> new RequestException(MensajeErrorEnum.BODEGA_NO_ENCONTRADA, HttpStatus.BAD_REQUEST.value()));
+
+            // BodegaDTO bodegaDTOs = BodegaMappers.BODEGA_MAPPERS.bodegaToBodegaDTO(bodegaId);
+
+
+            return  bodegaId;
+
         } catch(RuntimeException ex) {
             log.error("traerBodega: ".concat(ex.getMessage())
             );

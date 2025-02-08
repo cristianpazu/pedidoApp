@@ -34,7 +34,7 @@ public class ProductoController {
     }
 
     @GetMapping("/traerporId/{id}")
-    public ResponseEntity<Object> registrarProducto(@PathVariable Long id){
+    public ResponseEntity<Object> registrarProducto(@PathVariable Integer id){
 
         return new ResponseHandler().generateResponse(HttpStatus.OK, productoService.traerProductoId(id));
 

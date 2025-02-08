@@ -12,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductosRespuestaDTO {
-    Long idProductos;
+    Integer idProductos;
 
 
     String nombre;

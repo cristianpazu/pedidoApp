@@ -16,7 +16,7 @@ import java.util.Set;
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long idCliente;
+    Integer idCliente;
 
 
     Integer documento;
@@ -39,6 +39,18 @@ public class Cliente {
 @Transient
     @OneToMany(mappedBy = "clientes", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
    private List<Pedido> pedidos;
+
+
+
+    @ManyToOne
+    @JoinTable(name = "cliente_usuario",
+            joinColumns = @JoinColumn(
+                    name = "cliente_id"
+            ), inverseJoinColumns = @JoinColumn(name = "usuario_id")
+
+
+    )
+    private Usuario usuario;
 
 
 }
