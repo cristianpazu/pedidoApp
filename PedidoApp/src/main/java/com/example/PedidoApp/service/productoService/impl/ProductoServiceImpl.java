@@ -91,6 +91,7 @@ public class ProductoServiceImpl implements ProductoServiceInterface {
             Date fecha = new Date();
             SimpleDateFormat df = new SimpleDateFormat("EEEE dd,MMMM, yyyy hh:mm aa");
             String fechaStr = df.format(fecha);
+            productos.setFechaVencimiento(fechaStr);
             productos.setFechaIngreso(fechaStr);
             productos.setCategorias(categoriasList);
             productos.setBodega(bodegaList);

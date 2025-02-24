@@ -46,7 +46,39 @@ public enum MensajeErrorEnum {
     BODEGA_NO_ENCONTRADA(
             "1",
             "Bodega no encontrada",
-            "Verifique el nombre de usuario que se encuentra creando");
+            "Verifique el nombre de usuario que se encuentra creando"),
+    ERROR_DESCONOCIDO(
+            "Error desconocido",
+                    "E4",
+                    "contacte al administrador del sistema"),
+    FECHA_VENCIMIENTO(
+            "2",
+                    "PRODUCTO YA ESTA VENCIDO",
+                    "Verifique LA FECHA DE VENCIMIENTO"),
+    SIN_STOCK(
+            "3",
+                    "No hay suficiente stock disponible para el producto",
+                    "Verifique la cantidad del stock del producto"
+    ),
+    CANTIDAD(
+            "3",
+                    "La cantidad no puede ser negativa",
+                    "Verifique la cantidad que esta registrando"
+    ),
+    LISTA_VACIA(
+      "4",
+              "No hay ningun producto registrado",
+              ""
+    ),
+    PEDIDO_NO_ENCONTRADO(
+            "4",
+                    "El pedido no encontrado",
+                    ""
+    ),
+    USUARIO_NO_ENCONTRADO(
+            "2",
+                    "El usuario no fue encontrado",
+                    "Verifique si existe el usuario");
 
 
 

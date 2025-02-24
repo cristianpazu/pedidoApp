@@ -59,7 +59,7 @@ public class ClienteServiceImpl implements ClienteServiceInterface {
             // ClienteDTO clienteDTO = ClientesMappers.CLIENTES_MAPPERS.clienteToClienteDTO(cliente);
 
 
-            return ClientesMappers.CLIENTES_MAPPERS.clienteToClienteDTO(cliente);
+            return ClientesMappers.CLIENTES_MAPPERS.clienteToClienteDTO(clienteRepository.save(cliente));
                     //clienteRepository.save(clienteDTO);
 
         } catch (Exception e) {

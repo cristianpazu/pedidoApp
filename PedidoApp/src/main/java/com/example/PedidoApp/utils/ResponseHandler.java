@@ -29,5 +29,23 @@ public class ResponseHandler {
         mapRespuesta.put("payload", mapError);
         return new ResponseEntity<>(mapRespuesta, httpStatus);
     }
+    public static ResponseEntity<Object> error(
+            MensajeErrorEnum eMensajesExcepciones, HttpStatus httpStatus) {
+
+        Map<String, Object> generarError = new HashMap<>();
+        generarError.put("MENSAJE", eMensajesExcepciones.getMensajeError());
+        generarError.put("RECOMENDACION", eMensajesExcepciones.getRecomendacion());
+        generarError.put("CODIGO", eMensajesExcepciones.getCodigo());
+        final Map<String, Object> mapRespuesta = new HashMap<>();
+        Map<String, Object> mapError = new HashMap<>();
+        mapError.put("codigo", eMensajesExcepciones.getCodigo());
+        mapError.put("mensajeError", eMensajesExcepciones.getMensajeError());
+        mapError.put("recomendacion", eMensajesExcepciones.getRecomendacion());
+
+        mapRespuesta.put("status", httpStatus.value());
+        mapRespuesta.put("payload", mapError);
+
+        return new ResponseEntity<>(mapRespuesta, httpStatus);
+    }
 
 }

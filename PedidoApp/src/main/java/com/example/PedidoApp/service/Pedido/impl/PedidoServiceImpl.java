@@ -22,6 +22,9 @@ import java.util.Set;
 import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
 
+import static com.example.PedidoApp.Exceptions.MensajeErrorEnum.FECHA_VENCIMIENTO;
+import static com.example.PedidoApp.Exceptions.MensajeErrorEnum.PEDIDO_NO_ENCONTRADO;
+
 @Slf4j
 @Service
 public class PedidoServiceImpl implements PedidoServiceInterface {
@@ -70,6 +73,20 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
 
                 if (productoPedido.getIdProductos().equals(ped2.getIdProductos())) {
                     productoPedido.setCantidad(ped2.getCantidad());
+
+
+                    Date todayDate = new Date();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    String fechaActual = sdf.format(todayDate);
+                    System.out.println("fechaActual =>>>>>>>>>>>>>> " + productoPedido.getFechaVencimiento());
+
+                    if (fechaActual.compareTo(String.valueOf(productoPedido.getFechaVencimiento())) > 0) {
+                        System.out.println("fechaActual = " + fechaActual);
+                        System.out.println("productoPedido.getFechaVencimiento() = " + productoPedido.getFechaVencimiento());
+                        throw new RequestException(FECHA_VENCIMIENTO,  HttpStatus.BAD_REQUEST.value());
+
+                        //throw new RuntimeException("Proeducto vencido");
+                    }
 
 
                         if (productoPedido.getStocks().getCantidadStock() == 0) {
@@ -124,8 +141,10 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
             pedidoRepository.save(pedido);
             return pedido;
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (RequestException ex) {
+            ex.printStackTrace();
+            throw new RequestException(ex.getMensajesErrorEnum(), HttpStatus.BAD_REQUEST.value());
+
         }
 
 
@@ -134,7 +153,7 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
     @Override
     public Pedido traerPorId(Integer id) {
         Pedido pedido = pedidoRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("El pedido no encontrado"));
+                () -> new RequestException(PEDIDO_NO_ENCONTRADO, HttpStatus.BAD_REQUEST.value()));
         try {
 
             return pedido;
