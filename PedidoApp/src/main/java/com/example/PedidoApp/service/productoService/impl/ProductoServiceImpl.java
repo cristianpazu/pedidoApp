@@ -1,7 +1,6 @@
 package com.example.PedidoApp.service.productoService.impl;
 
 import com.example.PedidoApp.Exceptions.MensajeErrorEnum;
-import com.example.PedidoApp.Exceptions.RequestException;
 import com.example.PedidoApp.model.Bodega;
 import com.example.PedidoApp.model.Categoria;
 import com.example.PedidoApp.model.Productos;
@@ -11,6 +10,7 @@ import com.example.PedidoApp.repository.CategoriaRepository.CategoriaRepository;
 import com.example.PedidoApp.repository.ProductoRepository.ProductoRepository;
 import com.example.PedidoApp.repository.StockRepository.StockRepository;
 import com.example.PedidoApp.service.productoService.ProductoServiceInterface;
+import com.example.PedidoApp.utils.RequestException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +23,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.example.PedidoApp.Exceptions.MensajeErrorEnum.*;
 
 @Slf4j
 @Service
@@ -46,12 +48,12 @@ public class ProductoServiceImpl implements ProductoServiceInterface {
         try {
             Set<Categoria> categoriasList = productos.getCategorias().stream()
                     .map(modulo -> categoriaRepository.findById(modulo.getIdCategoria()).orElseThrow(
-                            () -> new RequestException(MensajeErrorEnum.CATEGORIA_NO_EXITE, HttpStatus.BAD_REQUEST.value())
+                            () -> new RequestException(CATEGORIA_NO_EXITE)
                     )).collect(Collectors.toSet());
             System.out.println(productos.getBodega());
             Set<Bodega> bodegaList = productos.getBodega().stream()
                     .map(bodegas -> bodegaRepository.findById(bodegas.getIdBodega()).orElseThrow(
-                            () -> new RequestException(MensajeErrorEnum.BODEGA_NO_ENCONTRADA, HttpStatus.BAD_REQUEST.value())
+                            () -> new RequestException(BODEGA_NO_ENCONTRADA)
                     )).collect(Collectors.toSet());
 /*
             // Bodega bodegaList = bodegaRepository.findById(productos.getStocks().getBodega().getIdBodega()).orElseThrow(() -> new RuntimeException("Bodega no encontrada"));
@@ -79,7 +81,6 @@ public class ProductoServiceImpl implements ProductoServiceInterface {
             }*/
 
 
-
             if (productos.getIva() > 0) {
 
                 double total = productos.getIva() / 100;
@@ -91,7 +92,7 @@ public class ProductoServiceImpl implements ProductoServiceInterface {
             Date fecha = new Date();
             SimpleDateFormat df = new SimpleDateFormat("EEEE dd,MMMM, yyyy hh:mm aa");
             String fechaStr = df.format(fecha);
-            productos.setFechaVencimiento(fechaStr);
+
             productos.setFechaIngreso(fechaStr);
             productos.setCategorias(categoriasList);
             productos.setBodega(bodegaList);
@@ -130,6 +131,26 @@ public class ProductoServiceImpl implements ProductoServiceInterface {
 
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public Productos traerProductosFechaVencimiento() {
+        try {
+
+            Date todayDate = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String fechaActual = sdf.format(todayDate);
+
+            Productos productos = productoRepository.findByFechaVencimiento(fechaActual);
+           if (productos == null) {
+               throw new RequestException(PRODUCTO_VENCIDOS_NO_ENCONTRADO);
+           }
+
+            return productos;
+        } catch (RequestException ex) {
+            throw new RequestException(ex.getMensajeErrorEnum());
         }
 
     }

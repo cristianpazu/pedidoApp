@@ -75,6 +75,11 @@ public enum MensajeErrorEnum {
                     "El pedido no encontrado",
                     ""
     ),
+    PRODUCTO_VENCIDOS_NO_ENCONTRADO(
+            "4",
+            "Por el momento no existe productos vencidos",
+            ""
+    ),
     USUARIO_NO_ENCONTRADO(
             "2",
                     "El usuario no fue encontrado",

@@ -45,6 +45,11 @@ public class ProductoController {
         return new ResponseHandler().generateResponse(HttpStatus.OK, productoService.traerTodoProducto());
     }
 
+    @GetMapping("/traerTodo/producto/vencido")
+    public ResponseEntity<Object> traerProductoVencido(){
+        return new ResponseHandler().generateResponse(HttpStatus.OK, productoService.traerProductosFechaVencimiento());
+    }
+
 
 
 }

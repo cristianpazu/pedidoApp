@@ -14,6 +14,8 @@ public interface ProductoServiceInterface {
 
     Productos traerProductoId(Integer id);
 
+    Productos traerProductosFechaVencimiento();
+
 
 
 
