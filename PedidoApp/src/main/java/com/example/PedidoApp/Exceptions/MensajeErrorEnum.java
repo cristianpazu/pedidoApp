@@ -61,7 +61,7 @@ public enum MensajeErrorEnum {
                     "Verifique la cantidad del stock del producto"
     ),
     CANTIDAD(
-            "3",
+            "12",
                     "La cantidad no puede ser negativa",
                     "Verifique la cantidad que esta registrando"
     ),

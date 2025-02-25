@@ -1,7 +1,7 @@
 package com.example.PedidoApp.service.Pedido.impl;
 
 import com.example.PedidoApp.Exceptions.MensajeErrorEnum;
-import com.example.PedidoApp.Exceptions.RequestException;
+import com.example.PedidoApp.utils.RequestException;
 import com.example.PedidoApp.model.*;
 import com.example.PedidoApp.model.DTO.ClienteDTO;
 import com.example.PedidoApp.repository.BodegaRepository.BodegaRepository;
@@ -22,8 +22,7 @@ import java.util.Set;
 import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
 
-import static com.example.PedidoApp.Exceptions.MensajeErrorEnum.FECHA_VENCIMIENTO;
-import static com.example.PedidoApp.Exceptions.MensajeErrorEnum.PEDIDO_NO_ENCONTRADO;
+import static com.example.PedidoApp.Exceptions.MensajeErrorEnum.*;
 
 @Slf4j
 @Service
@@ -46,10 +45,22 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
 
     @Override
     public Pedido registrarPedido(Pedido pedido) {
+        try {
+
+            Cliente clientes = clienteRepository.findById(pedido.getClientes().getIdCliente()).orElseThrow
+                    (() -> new RuntimeException("Cliente no encontrado con ID: " + pedido.getClientes().getIdCliente()));
+
+            Usuario usuarios = usuarioRepository.findById(pedido.getUsuario().getIdUsuario()).orElseThrow
+                    (() -> new RuntimeException("Usuario no encontrado con ID: " + pedido.getUsuario().getIdUsuario()));
+            System.out.println("clientes = " + clientes);
+
+            log.info("clientes:" + clientes.getNombre());
+
+
         System.out.println("asddddddddddd"+ pedido);
         Set<Productos> productosList = pedido.getProductos().stream()
                 .map(producto -> productoRepository.findById(producto.getIdProductos()).orElseThrow(
-                        () -> new RequestException(MensajeErrorEnum.PRODUCTO_NO_ENCONTRADO, HttpStatus.BAD_REQUEST.value())
+                        () -> new RequestException(MensajeErrorEnum.PRODUCTO_NO_ENCONTRADO)
                 )).collect(Collectors.toSet());
 
 
@@ -83,18 +94,21 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
                     if (fechaActual.compareTo(String.valueOf(productoPedido.getFechaVencimiento())) > 0) {
                         System.out.println("fechaActual = " + fechaActual);
                         System.out.println("productoPedido.getFechaVencimiento() = " + productoPedido.getFechaVencimiento());
-                        throw new RequestException(FECHA_VENCIMIENTO,  HttpStatus.BAD_REQUEST.value());
+                        throw new RequestException(FECHA_VENCIMIENTO);
 
                         //throw new RuntimeException("Proeducto vencido");
                     }
 
 
                         if (productoPedido.getStocks().getCantidadStock() == 0) {
-                            throw new RuntimeException("No hay suficiente stock disponible para el producto");
+                            throw new RequestException(SIN_STOCK);
                         }
 
                         int stockActualizado = productoPedido.getStocks().getCantidadStock() - ped2.getCantidad();
 
+                    if (stockActualizado < 0) {
+                        throw new RequestException(MensajeErrorEnum.CANTIDAD);
+                    }
 
                     productoPedido.getStocks().setCantidadStock(stockActualizado);
 
@@ -118,15 +132,8 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
 
         System.out.println("total = " + total);
 
-        Cliente clientes = clienteRepository.findById(pedido.getClientes().getIdCliente()).orElseThrow
-                (() -> new RuntimeException("Cliente no encontrado con ID: " + pedido.getClientes().getIdCliente()));
 
-        Usuario usuarios = usuarioRepository.findById(pedido.getUsuario().getIdUsuario()).orElseThrow
-                (() -> new RuntimeException("Usuario no encontrado con ID: " + pedido.getUsuario().getIdUsuario()));
-        System.out.println("clientes = " + clientes);
-        
-        log.info("clientes:" + clientes.getNombre());
-        try {
+
 
             Date fecha = new Date();
             SimpleDateFormat df = new SimpleDateFormat("EEEE dd,MMMM, yyyy");
@@ -143,7 +150,7 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
 
         } catch (RequestException ex) {
             ex.printStackTrace();
-            throw new RequestException(ex.getMensajesErrorEnum(), HttpStatus.BAD_REQUEST.value());
+            throw new RequestException(ex.getMensajeErrorEnum());
 
         }
 
@@ -153,7 +160,7 @@ public class PedidoServiceImpl implements PedidoServiceInterface {
     @Override
     public Pedido traerPorId(Integer id) {
         Pedido pedido = pedidoRepository.findById(id).orElseThrow(
-                () -> new RequestException(PEDIDO_NO_ENCONTRADO, HttpStatus.BAD_REQUEST.value()));
+                () -> new RequestException(PEDIDO_NO_ENCONTRADO));
         try {
 
             return pedido;

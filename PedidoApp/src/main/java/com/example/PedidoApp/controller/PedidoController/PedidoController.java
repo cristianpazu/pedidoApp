@@ -20,7 +20,7 @@ public class PedidoController {
 
     Pedido pedido = new Pedido();
 
-    @Autowired
+
     PedidoServiceImpl pedidoService;
 
 
